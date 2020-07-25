@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Transactions Operatios Page</h2>
+<br>
+<h3>GET Request By Id</h3>
+Enter Transaction Id(Integer value): <input type="number" id="txnId" name="keyword"><br>
+<br>
+<button type="button" onclick="getTransactionById()">GetTransaction Details By Id</button>
+<br>
+<p id="txbById"></p>
+<br><br>
+
+<h3>GET Request By Type</h3>
+<br>
+Enter TransactionType :  <input type="text" id="txnType" name="keyword"><br>
+<br><br>
+<button type="button" onclick="getTransactionByType()">GetTransaction Details By Type</button>
+<br>
+<p id="txnByTye"></p>
+
+<br><br>
+<h3>GET Request for Sum</h3>
+<br>
+Enter TransactionId For Sum :  <input type="number" id="txnSum" name="keyword"><br>
+<br><br>
+<button type="button" onclick="getTransactionSumById()">Get Sum</button>
+<br>
+<p id="txnBySum"></p>
+<br><br>
+<h3>PUT Request to Add Transaction Details</h3>
+<br>
+TransactionId :<input type="number" id="tid"><br><br>
+type      :   <input type="text" id="type" ><br><br>
+Amount    :   <input type="number" id="amount"><br><br>
+Parent Id :   <input type="number" id="parent_id" ><br><br>
+<button type="button" onclick="sumbitForm()"> Add Txt Details</button><br><br>
+<p id="postData"></p>
+
+<script>
+function getTransactionById() {
+  console.log(document.getElementById("txnId").value)	
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("txbById").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "http://localhost:7000/transactionservice/transaction/"+document.getElementById("txnId").value, true);
+  xhttp.send();
+}
+function getTransactionByType() {
+  console.log(document.getElementById("txnType").value)
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("txnByTye").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "http://localhost:7000/transactionservice/"+document.getElementById("txnType").value, true);
+  xhttp.send();
+}
+
+function getTransactionSumById() {
+  console.log(document.getElementById("txnType").value)
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("txnBySum").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "http://localhost:7000/transactionservice/sum/"+document.getElementById("txnSum").value, true);
+  xhttp.send();
+}
+function sumbitForm() {
+  console.log(document.getElementById("amount").value)
+  var data = {};
+  data.amount = parseInt(document.getElementById("amount").value)
+  data.type =document.getElementById("type").value
+  data.parent_id =parseInt(document.getElementById("parent_id").value)
+  var json = JSON.stringify(data);
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("postData").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("PUT", "http://localhost:7000/transactionservice/transaction/"+document.getElementById("tid").value, true);
+  xhttp.send(json);
+}
+</script>
+
+</body>
+</html>
+
